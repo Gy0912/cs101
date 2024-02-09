@@ -1,0 +1,51 @@
+\titledquestion{Array Section: Maximal Power}
+
+Given a sequence of positive integers $A=\langle a_1,\cdots,a_n\rangle$, we want to divide it into several consecutive sections so that the sum of power of these sections
+is maximized.
+
+The power of section $\langle a_i,\cdots,a_j\rangle$ is defined as $aX_{i,j}^2+bX_{i,j}+c$, where
+\begin{itemize}
+    \item $a,b,c$ are given constants.
+    \item $X_{i,j}=\sum\limits_{k=i}^j a_k$ is the sum of values in the section.
+\end{itemize}
+
+Please design a \textbf{dynamic programming} algorithm that returns the maximal sum of power of the sections that you divided.
+
+For example, if \(a=-1,b=10,c=20\) and \(A=\langle 2,2,3,4\rangle\), the maximal sum of power is \(9\), and the way to divide the sequence is: \(\langle 2,2\rangle,\langle 3\rangle,\langle 4\rangle\).
+
+\begin{parts}
+    \part[3] Define the subproblems for $i\in[0,n]$: $OPT(i)=$ the maximal sum of power of if you only consider dividing the first $i$ elements. Give your Bellman equation to solve the subproblems.
+
+    \begin{solution}
+        \[
+            OPT(i)=
+            \begin{cases}
+                0                                                       & \case{i=0} \\
+                \max \{OPT(j-1)+aX_{i,j}^2+bX_{i,j}+c (1 \le j \le i)\} & \otherwise
+            \end{cases}
+        \]
+    \end{solution}
+
+    \part[1] What is the answer to this question in terms of $OPT$?
+
+    \begin{solution}
+        The answer is OPT(n).
+    \end{solution}
+
+    \part[3] What is the runtime complexity of your algorithm? (answer in $\Theta(\cdot)$)
+
+    \textbf{Hint:} How will you compute $X_{j,i}$ in $\Theta(1)$ time? Please give your analysis of the preprocessing and computing complexity.
+
+    \begin{solution} \\
+        In this problem, we traverse every elements in A and then traverse all front elements.
+        Thus we have $\Theta(n^2)$ times loop. \\
+        In the loop, we compute $aX_{i,j}^2+bX_{i,j}+c$, which can be dealed in $\Theta(1)$ times. \\
+        Thus the whole time complexity is $\Theta(n^2)$. \\
+        We can use two variables to restore $X_{1,i}$ and compute them in outer loop. Call it sum1 and sum2.
+        sum1 is used to restore $X_{1,i}$ and sum2 is used to compute $X_{j,i}$.
+        Let sum2 = sum1 in the outer loop.
+        In the inner loop, since j is started from 1, we can compute $X_{j,i}$ by $sum2 - a_j$.
+        Thus the runtime will be $\Theta(1)$.
+    \end{solution}
+
+\end{parts}

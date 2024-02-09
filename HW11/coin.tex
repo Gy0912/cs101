@@ -1,0 +1,42 @@
+\titledquestion{Odd number of coins changing}
+
+Given n coin denominations $\{c_1,c_2,\cdots,c_n\}$ and a target value $V$, you are going to make change for $V$. However, only odd number of coins is allowed.
+
+Please design a \textbf{dynamic programming} algorithm that find the fewest odd number of coins needed to make change for $V$ (or report impossible).
+
+\begin{parts}
+    \part[5] Define the subproblems: $F(v)=$ fewest odd number of coins to make change for $v$ and $G(v)=$ fewest even number of coins to make change for $v$.
+    Give your Bellman equation to solve the subproblems.
+
+    \begin{solution}
+        \[
+            F(v)=
+            \begin{cases}
+                0                                   & \case{v=0} \\
+                \infty                              & \case{v<0} \\
+                \min \{1+G(v-c_i) (1 \le i \le n)\} & \otherwise
+            \end{cases}
+        \]
+        \[
+            G(v)=
+            \begin{cases}
+                0                                   & \case{v=0} \\
+                \infty                              & \case{v<0} \\
+                \min \{1+F(v-c_i) (1 \le i \le n)\} & \otherwise
+            \end{cases}
+        \]
+    \end{solution}
+
+    \part[1] What is the answer to this question in terms of $F,G$?
+
+    \begin{solution}
+        If F(V) is $\infty$ or zero, the answer is impossible. Otherwise, the ansewr is F(V).
+    \end{solution}
+
+    \part[1] What is the runtime complexity of your algorithm? (answer in $\Theta(\cdot)$)
+
+    \begin{solution}
+        $\Theta(nV)$.
+    \end{solution}
+
+\end{parts}

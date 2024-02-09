@@ -1,0 +1,31 @@
+\titledquestion{Analysing the Time Complexity of a C++ Function}[4]
+
+What is the time complexity of \lstinline{fun} (in the form of \(\Theta(f(n))\), where \(n\) is the size of the \lstinline{vector a})?
+
+\begin{cpp}
+    void fun(std::vector<int> a) {
+            int n = a.size();
+            for (int i = 1; i < n; i *= 2) {
+                    // do O(1) operations
+                    for (int j = 0; j < n; j += i * 2) {
+                            // do O(1) operations
+                            for (int k = 0; k < i; ++k) {
+                                    // do O(1) operations
+                                }
+                        }
+                }
+        }
+\end{cpp}
+
+\textbf{NOTE}: Please clearly demonstrate your complexity analysis: you should give the complexity of the basic parts of an algorithm first, and then analyse the complexity of larger parts. The answer of the total complexity alone only accounts for 1pt.
+
+\begin{solution} \\
+    %\vspace{4.6in}
+    The inner loop has a capacity of $\theta(i)$. \\
+    In the outer loop has a capacity of $\theta(\log_{2}{(n - 1)})$. We can get the capacity of outer
+    loop from tha equation $2^k = n$. \\
+    The middle loop has a capacity of $\theta(\frac{n}{2i})$. \\
+    To compute the capacity of whole loop, we can simply multiply them to get the answer, which
+    is $\theta(\log_{2}{(n - 1)}) \cdot \frac{n}{2}$. The final answer can be written without constant.
+    The answer is $\theta(nlog(n))$.
+\end{solution}

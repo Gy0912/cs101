@@ -1,0 +1,31 @@
+\titledquestion{Travel}[8]
+
+There is a country with $n$ cities and $m$ directed edges. The edge from $u$ to $v$ has a length $w_{u,v}$.
+Traveler Bob is starting at city $1$ and going to city $n$.
+
+Bob can either take \emph{car} or \emph{train} as his vehicle.
+Suppose Bob is now at city $v_0$, and there is a path $v_0\rightarrow v_1\rightarrow \cdots \rightarrow v_k$.
+Then he can go to $v_k$ through this path, either by car with a cost $\sum_{i=1}^k w_{v_{i-1}, v_i}$ (the sum of the weights of the edges in this path), or by train with a cost $t_{v_0} + c\times k$, where $t_{v_0}$ is the price of train ticket at city $v_0$, $c$ is a constant, and $k$ is the number of edges in this path.
+
+Bob can freely decide which vehicle to take at any city. He can switch his vehicle multiple times. His goal is to minimize the total cost.
+
+Please design an algorithm to solve this question. You may call any algorithm learned in lecture as a subroutine but be sure to indicate its input. You \textbf{don't} need to prove the correctness of your algorithm. Then, write your \textbf{time complexity}.
+
+To get full credits, the time complexity of your algorithm should not exceed $O\left(\left(n + m\right) \log n\right)$.
+
+\textbf{Input. } $n$, $m$, $E=\{(u_i,v_i,w_{u_i,v_i}>0):i=1,2,\ldots, m\}$, $\{t_i\}_{i=1}^n>0$, $c>0$.
+
+\textbf{Output. } The minimal total cost.
+
+\begin{solution} \\
+    We can regard the station as a new city which shares the same location with this city.
+    We can go to the station from city at the cost of $t_v$, and also can go to the city from station with no cost.
+    Of course, we cannot go to the station and then go back to the city. First go to city then go back to station is also not allowed.
+    Thus we copy graph G and get a new station graph G' with every edges' weight is c, and every vertex in G has an edge with weight $t_v$ to g' and 0 in opposite.
+    Then use Dijkstra's algorithm to traverse all the vertices in G and G', with the number of vertices being 2n and number of edges being 2m+2n.
+    The time complexity is O((2n+2m+2n)log(2n)) = O((m+n)logn).
+\end{solution}
+
+
+
+

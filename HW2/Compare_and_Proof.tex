@@ -1,0 +1,52 @@
+\titledquestion{Compare and Proof}
+
+For each pair of functions \(f(n)\) and \(g(n)\), give your answer whether \(f(n) = o(g(n))\), \(f(n) = \omega(g(n))\) or \(f(n) = \Theta(g(n))\).  Give a \textbf{proof} of your answers.
+
+\begin{parts}
+    \part[3] \par
+    \[f(n) = \log(n!)\]
+    \[g(n) = \log(n^n)\]
+
+    \begin{solution} \\
+        %\vspace{6.5in}
+        Proof
+        \begin{equation}
+            \begin{aligned}
+                \frac{f(n)}{g(n)} = & \frac{log(n!)}{log(n^n)} \\
+                =                   & \log_{n^n}{n!}
+            \end{aligned}
+        \end{equation}
+        It's obvious that $n! \in [1, n^n]$, so that $\log_{n^n}{n!} \in [0, 1]$. Thus $f(n) = \theta(g(n))$.
+    \end{solution}
+    \newpage
+    \part[3] \par
+    \[f(n) = n^{1+\varepsilon}, \qquad (\varepsilon\in \mathbb{R}^+)\]
+    \[g(n) = n(\log n)^k, \qquad (k\in \mathbb{Z}^+)\]
+
+    \begin{solution} \\
+        %\vspace{6.5in}
+        Proof
+        \begin{equation}
+            \begin{aligned}
+                \lim_{n \to \infty} \frac{f(n)}{g(n)} = & \lim_{n \to \infty} \frac{n^(1 + \varepsilon)}{n(log(n))^k} \\
+                =                                       & \lim_{n \to \infty} \frac{n^\varepsilon}{(log(n))^k}
+            \end{aligned}
+        \end{equation}
+        Since $\varepsilon > 0$ and $k > 0$, we know
+        \begin{equation}
+            \begin{aligned}
+                \lim_{n \to \infty}f(n) \to \infty \\
+                \lim_{n \to \infty}g(n) \to \infty
+            \end{aligned}
+        \end{equation}
+        Thus we can use L Hoptial's rule and get
+        \begin{equation}
+            \lim_{n \to \infty} \frac{f(n)}{g(n)} = \lim_{n \to \infty} \frac{\varepsilon n^\varepsilon}{k(log(n))^{k-1}}
+        \end{equation}
+        We can repeat the operation of using L Hoptial's rule until k goes to 0. We have
+        \begin{equation}
+            \lim_{n \to \infty} \frac{f(n)}{g(n)} = \lim_{n \to \infty} \frac{(\varepsilon)^k n^\varepsilon}{k!}
+        \end{equation}
+        Then the answer is obvious. It's $f(n) = \omega(g(n))$.
+    \end{solution}
+\end{parts}

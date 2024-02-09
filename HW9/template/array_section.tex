@@ -1,0 +1,69 @@
+\titledquestion{Array Section}
+
+Given an upper bound \(M\) and a sequence of positive integers \(A=\langle a_1,\cdots,a_n\rangle\) where \(\forall i \in [1, n], a_i \leq M\), we want to divide it into several consecutive sections so that the sum of each section is less than or equal to the upper bound \(M\), and the number of sections is minimized.
+
+For example, if \(M=6\) and \(A=\langle 4,2,4,5,1\rangle\), the minimum number of sections is \(3\), and there are two ways to divide the sequence \(A\) into \(3\) sections: \(\langle 4\rangle,\langle 2,4\rangle,\langle 5,1\rangle\) and \(\langle 4,2\rangle,\langle 4\rangle,\langle 5,1\rangle\).
+
+Design a greedy algorithm to find the minimum number of sections in \(\Theta(n)\) time, and prove its correctness.
+
+\begin{parts}
+    \part[2] Describe your algorithm in \textbf{pseudocode}.
+    \part[2] Analyse the time complexity based on your \textbf{pseudocode}.
+    \part[1] How to define the sub-problem $g(i)$ in your algorithm?
+    \part[2] How do you solve $g(i)$ by calling $g(i-1)$ recursively?
+    \part[2] Prove the correctness of solving $g(i)$ by calling $g(i-1)$.
+\end{parts}
+
+\begin{solution}
+    \begin{enumerate}
+        \item \textbf{Pseudocode:}\\
+              Define two iterators it which starts at the first element of the array.
+              Answer is the number of sections we need. Length is the length of array A.
+              Current is the sum of elements in the array which is less than or equal to M.
+              \begin{algorithm}[H]
+                  \color{blue}
+                  \begin{algorithmic}[1]
+                      \Function {find$\_$minimum$\_$sections}{array A, M}
+                      \State it $\gets$ 0
+                      \State answer $\gets$ 0
+                      \State length $\gets$ A.size()
+                      \State current $\gets$ 0
+                      \While {it != length}
+                      \If {current + A[it] $<$ M}
+                      \State current += A[it]
+                      \State it++
+                      \ElsIf {current + A[it] = M}
+                      \State current $\gets$ 0
+                      \State answer += 1
+                      \State it++
+                      \Else
+                      \State current $\gets$ A[it]
+                      \State answer += 1
+                      \State it++
+                      \EndIf
+                      \EndWhile
+                      \EndFunction
+                  \end{algorithmic}
+              \end{algorithm}
+    \end{enumerate}
+\end{solution}
+\newpage
+\begin{solution}
+    \begin{enumerate}
+        \item \textbf{Analysis:}
+              Outside the loop the time complexity is $\theta(n)$. \\
+              Inside the loop the whole time complexity is $\frac{5}{12} \theta(2) + \frac{1}{6} \theta(3) + \frac{5}{12} \theta(3)$,
+              which is $\theta(1)$. \\
+              Thus the whole time complexity is $\theta(n) + n \cdot \theta(1) = \theta(n)$.
+        \item The sub-problem g(i) is the minimun number of section in A from the first element to the ith element.
+        \item If after adding A[i] to the current in the pseudocode, current is larger than or equal to M, then g(i) = g(i-1)+1; otherwise, g(i) = g(i-1).
+        \item Knowing that g(i-1) is the best way of dividing, and we assume that there exist a better solution for g(i), called h(i).
+              Then there must be a inequation that the number of sections in h(i) is less than or equal to those in g(i).
+              We know that g(i) equals to g(i-1) or g(i-1)+1, thus h(i) is sometimes g(i-1) when g(i) is g(i-1)+1.
+              When g(i) equals to g(i-1)+1, it means the ith element can not be put into the last section, while in h(i) the ith can.
+              Since the order will not change, there must be some elements in the last section of g(i) not belonging to the last section in h(i).
+              For these elements, they can be regarded as new elements which should be added into g(i-2).
+              Repeat the operations above until g(1)(h(1) should add new elements to g(1)), then we can know that h(1) is obviously larger than or equal to g(1), contradicting to the condition that h(i) is less than or equal to those in g(i).
+              Thus solving g(i) by calling g(i-1) is correct.
+    \end{enumerate}
+\end{solution}
